@@ -1,0 +1,3 @@
+[2024-11-04 09:21:53,565][absl][INFO] - MUJOCO_GL is not set, so an OpenGL backend will be chosen automatically.
+[2024-11-04 09:21:53,566][absl][INFO] - Successfully imported OpenGL backend: glfw
+[2024-11-04 09:21:53,570][absl][INFO] - MuJoCo library version is: 3.1.2

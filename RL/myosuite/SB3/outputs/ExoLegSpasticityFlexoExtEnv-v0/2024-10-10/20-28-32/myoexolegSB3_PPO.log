@@ -1,0 +1,7 @@
+[2024-10-10 20:28:33,536][absl][INFO] - MUJOCO_GL is not set, so an OpenGL backend will be chosen automatically.
+[2024-10-10 20:28:33,537][absl][INFO] - Successfully imported OpenGL backend: glfw
+[2024-10-10 20:28:33,541][absl][INFO] - MuJoCo library version is: 3.1.2
+[2024-10-11 02:30:08,325][absl][WARNING] - Nan, Inf or huge value in QACC at DOF 0. The simulation is unstable. Time = 3.9450.
+[2024-10-11 06:03:42,342][absl][WARNING] - Nan, Inf or huge value in QACC at DOF 0. The simulation is unstable. Time = 1.3620.
+[2024-10-11 07:04:27,770][absl][WARNING] - Nan, Inf or huge value in QACC at DOF 0. The simulation is unstable. Time = 0.2060.
+[2024-10-11 08:24:53,345][absl][WARNING] - Nan, Inf or huge value in QACC at DOF 0. The simulation is unstable. Time = 3.8070.

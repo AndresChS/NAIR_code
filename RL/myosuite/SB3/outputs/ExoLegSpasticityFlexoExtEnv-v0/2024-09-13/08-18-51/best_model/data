@@ -1,0 +1,121 @@
+{
+    "policy_class": {
+        ":type:": "<class 'abc.ABCMeta'>",
+        ":serialized:": "gAWVOwAAAAAAAACMIXN0YWJsZV9iYXNlbGluZXMzLmNvbW1vbi5wb2xpY2llc5SMEUFjdG9yQ3JpdGljUG9saWN5lJOULg==",
+        "__module__": "stable_baselines3.common.policies",
+        "__doc__": "\n    Policy class for actor-critic algorithms (has both policy and value prediction).\n    Used by A2C, PPO and the likes.\n\n    :param observation_space: Observation space\n    :param action_space: Action space\n    :param lr_schedule: Learning rate schedule (could be constant)\n    :param net_arch: The specification of the policy and value networks.\n    :param activation_fn: Activation function\n    :param ortho_init: Whether to use or not orthogonal initialization\n    :param use_sde: Whether to use State Dependent Exploration or not\n    :param log_std_init: Initial value for the log standard deviation\n    :param full_std: Whether to use (n_features x n_actions) parameters\n        for the std instead of only (n_features,) when using gSDE\n    :param use_expln: Use ``expln()`` function instead of ``exp()`` to ensure\n        a positive standard deviation (cf paper). It allows to keep variance\n        above zero and prevent it from growing too fast. In practice, ``exp()`` is usually enough.\n    :param squash_output: Whether to squash the output using a tanh function,\n        this allows to ensure boundaries when using gSDE.\n    :param features_extractor_class: Features extractor to use.\n    :param features_extractor_kwargs: Keyword arguments\n        to pass to the features extractor.\n    :param share_features_extractor: If True, the features extractor is shared between the policy and value networks.\n    :param normalize_images: Whether to normalize images or not,\n         dividing by 255.0 (True by default)\n    :param optimizer_class: The optimizer to use,\n        ``th.optim.Adam`` by default\n    :param optimizer_kwargs: Additional keyword arguments,\n        excluding the learning rate, to pass to the optimizer\n    ",
+        "__init__": "<function ActorCriticPolicy.__init__ at 0x3006dee50>",
+        "_get_constructor_parameters": "<function ActorCriticPolicy._get_constructor_parameters at 0x3006deee0>",
+        "reset_noise": "<function ActorCriticPolicy.reset_noise at 0x3006def70>",
+        "_build_mlp_extractor": "<function ActorCriticPolicy._build_mlp_extractor at 0x3006d7040>",
+        "_build": "<function ActorCriticPolicy._build at 0x3006d70d0>",
+        "forward": "<function ActorCriticPolicy.forward at 0x3006d7160>",
+        "extract_features": "<function ActorCriticPolicy.extract_features at 0x3006d71f0>",
+        "_get_action_dist_from_latent": "<function ActorCriticPolicy._get_action_dist_from_latent at 0x3006d7280>",
+        "_predict": "<function ActorCriticPolicy._predict at 0x3006d7310>",
+        "evaluate_actions": "<function ActorCriticPolicy.evaluate_actions at 0x3006d73a0>",
+        "get_distribution": "<function ActorCriticPolicy.get_distribution at 0x3006d7430>",
+        "predict_values": "<function ActorCriticPolicy.predict_values at 0x3006d74c0>",
+        "__abstractmethods__": "frozenset()",
+        "_abc_impl": "<_abc_data object at 0x3006e1240>"
+    },
+    "verbose": 0,
+    "policy_kwargs": {},
+    "num_timesteps": 440000,
+    "_total_timesteps": 1000000,
+    "_num_timesteps_at_start": 0,
+    "seed": null,
+    "action_noise": null,
+    "start_time": 1726208333360378000,
+    "learning_rate": 0.0001,
+    "tensorboard_log": null,
+    "_last_obs": {
+        ":type:": "<class 'numpy.ndarray'>",
+        ":serialized:": "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"
+    },
+    "_last_episode_starts": {
+        ":type:": "<class 'numpy.ndarray'>",
+        ":serialized:": "gAWVdwAAAAAAAACMEm51bXB5LmNvcmUubnVtZXJpY5SMC19mcm9tYnVmZmVylJOUKJYEAAAAAAAAAAAAAACUjAVudW1weZSMBWR0eXBllJOUjAJiMZSJiIeUUpQoSwOMAXyUTk5OSv////9K/////0sAdJRiSwSFlIwBQ5R0lFKULg=="
+    },
+    "_last_original_obs": null,
+    "_episode_num": 0,
+    "use_sde": false,
+    "sde_sample_freq": -1,
+    "_current_progress_remaining": 0.565824,
+    "_stats_window_size": 100,
+    "ep_info_buffer": {
+        ":type:": "<class 'collections.deque'>",
+        ":serialized:": "gAWVIAAAAAAAAACMC2NvbGxlY3Rpb25zlIwFZGVxdWWUk5QpS2SGlFKULg=="
+    },
+    "ep_success_buffer": {
+        ":type:": "<class 'collections.deque'>",
+        ":serialized:": "gAWVIAAAAAAAAACMC2NvbGxlY3Rpb25zlIwFZGVxdWWUk5QpS2SGlFKULg=="
+    },
+    "_n_updates": 530,
+    "observation_space": {
+        ":type:": "<class 'gymnasium.spaces.box.Box'>",
+        ":serialized:": "gAWVCQUAAAAAAACMFGd5bW5hc2l1bS5zcGFjZXMuYm94lIwDQm94lJOUKYGUfZQojAVkdHlwZZSMBW51bXB5lGgFk5SMAmY0lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKMDWJvdW5kZWRfYmVsb3eUjBJudW1weS5jb3JlLm51bWVyaWOUjAtfZnJvbWJ1ZmZlcpSTlCiWWwAAAAAAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBlGgHjAJiMZSJiIeUUpQoSwOMAXyUTk5OSv////9K/////0sAdJRiS1uFlIwBQ5R0lFKUjA1ib3VuZGVkX2Fib3ZllGgQKJZbAAAAAAAAAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQGUaBRLW4WUaBh0lFKUjAZfc2hhcGWUS1uFlIwDbG93lGgQKJZsAQAAAAAAAAAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMEAACDBAAAgwQAAIMGUaApLW4WUaBh0lFKUjARoaWdolGgQKJZsAQAAAAAAAAAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEEAACBBAAAgQQAAIEGUaApLW4WUaBh0lFKUjAhsb3dfcmVwcpSMBS0xMC4wlIwJaGlnaF9yZXBylIwEMTAuMJSMCl9ucF9yYW5kb22UTnViLg==",
+        "dtype": "float32",
+        "bounded_below": "[ True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True]",
+        "bounded_above": "[ True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True]",
+        "_shape": [
+            91
+        ],
+        "low": "[-10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10. -10.\n -10. -10. -10. -10. -10. -10. -10.]",
+        "high": "[10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10.\n 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10.\n 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10.\n 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10.\n 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10. 10.\n 10.]",
+        "low_repr": "-10.0",
+        "high_repr": "10.0",
+        "_np_random": null
+    },
+    "action_space": {
+        ":type:": "<class 'gymnasium.spaces.box.Box'>",
+        ":serialized:": "gAWVMAQAAAAAAACMFGd5bW5hc2l1bS5zcGFjZXMuYm94lIwDQm94lJOUKYGUfZQojAVkdHlwZZSMBW51bXB5lGgFk5SMAmY0lImIh5RSlChLA4wBPJROTk5K/////0r/////SwB0lGKMDWJvdW5kZWRfYmVsb3eUjBJudW1weS5jb3JlLm51bWVyaWOUjAtfZnJvbWJ1ZmZlcpSTlCiWKQAAAAAAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAZRoB4wCYjGUiYiHlFKUKEsDjAF8lE5OTkr/////Sv////9LAHSUYksphZSMAUOUdJRSlIwNYm91bmRlZF9hYm92ZZRoECiWKQAAAAAAAAABAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAZRoFEsphZRoGHSUUpSMBl9zaGFwZZRLKYWUjANsb3eUaBAolqQAAAAAAAAAAACAvwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACUaApLKYWUaBh0lFKUjARoaWdolGgQKJakAAAAAAAAAAAAgD8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlGgKSymFlGgYdJRSlIwIbG93X3JlcHKUjKdbLTEuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4KICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuICAwLiAgMC4gIDAuCiAgMC4gIDAuICAwLiAgMC4gIDAuXZSMCWhpZ2hfcmVwcpSMfVsxLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLiAwLgogMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC4gMC5dlIwKX25wX3JhbmRvbZROdWIu",
+        "dtype": "float32",
+        "bounded_below": "[ True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True]",
+        "bounded_above": "[ True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True  True  True  True  True  True  True  True\n  True  True  True  True  True]",
+        "_shape": [
+            41
+        ],
+        "low": "[-1.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.\n  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.\n  0.  0.  0.  0.  0.]",
+        "high": "[1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.\n 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]",
+        "low_repr": "[-1.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.\n  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.  0.\n  0.  0.  0.  0.  0.]",
+        "high_repr": "[1. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.\n 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0. 0.]",
+        "_np_random": null
+    },
+    "n_envs": 4,
+    "n_steps": 2048,
+    "gamma": 0.99,
+    "gae_lambda": 0.95,
+    "ent_coef": 0.0,
+    "vf_coef": 0.5,
+    "max_grad_norm": 0.5,
+    "rollout_buffer_class": {
+        ":type:": "<class 'abc.ABCMeta'>",
+        ":serialized:": "gAWVNgAAAAAAAACMIHN0YWJsZV9iYXNlbGluZXMzLmNvbW1vbi5idWZmZXJzlIwNUm9sbG91dEJ1ZmZlcpSTlC4=",
+        "__module__": "stable_baselines3.common.buffers",
+        "__annotations__": "{'observations': <class 'numpy.ndarray'>, 'actions': <class 'numpy.ndarray'>, 'rewards': <class 'numpy.ndarray'>, 'advantages': <class 'numpy.ndarray'>, 'returns': <class 'numpy.ndarray'>, 'episode_starts': <class 'numpy.ndarray'>, 'log_probs': <class 'numpy.ndarray'>, 'values': <class 'numpy.ndarray'>}",
+        "__doc__": "\n    Rollout buffer used in on-policy algorithms like A2C/PPO.\n    It corresponds to ``buffer_size`` transitions collected\n    using the current policy.\n    This experience will be discarded after the policy update.\n    In order to use PPO objective, we also store the current value of each state\n    and the log probability of each taken action.\n\n    The term rollout here refers to the model-free notion and should not\n    be used with the concept of rollout used in model-based RL or planning.\n    Hence, it is only involved in policy and value function training but not action selection.\n\n    :param buffer_size: Max number of element in the buffer\n    :param observation_space: Observation space\n    :param action_space: Action space\n    :param device: PyTorch device\n    :param gae_lambda: Factor for trade-off of bias vs variance for Generalized Advantage Estimator\n        Equivalent to classic advantage when set to 1.\n    :param gamma: Discount factor\n    :param n_envs: Number of parallel environments\n    ",
+        "__init__": "<function RolloutBuffer.__init__ at 0x3003dba60>",
+        "reset": "<function RolloutBuffer.reset at 0x3003dbaf0>",
+        "compute_returns_and_advantage": "<function RolloutBuffer.compute_returns_and_advantage at 0x3003dbb80>",
+        "add": "<function RolloutBuffer.add at 0x3003dbc10>",
+        "get": "<function RolloutBuffer.get at 0x3003dbca0>",
+        "_get_samples": "<function RolloutBuffer._get_samples at 0x3003dbd30>",
+        "__abstractmethods__": "frozenset()",
+        "_abc_impl": "<_abc_data object at 0x3003853c0>"
+    },
+    "rollout_buffer_kwargs": {},
+    "batch_size": 64,
+    "n_epochs": 10,
+    "clip_range": {
+        ":type:": "<class 'function'>",
+        ":serialized:": "gAWVqQMAAAAAAACMF2Nsb3VkcGlja2xlLmNsb3VkcGlja2xllIwOX21ha2VfZnVuY3Rpb26Uk5QoaACMDV9idWlsdGluX3R5cGWUk5SMCENvZGVUeXBllIWUUpQoSwFLAEsASwFLA0sTQwx0AIgAfACDAYMBUwCUToWUjAVmbG9hdJSFlIwScHJvZ3Jlc3NfcmVtYWluaW5nlIWUjF0vb3B0L2FuYWNvbmRhMy9lbnZzL0Jhc2VsaW5lc1JML2xpYi9weXRob24zLjgvc2l0ZS1wYWNrYWdlcy9zdGFibGVfYmFzZWxpbmVzMy9jb21tb24vdXRpbHMucHmUjAg8bGFtYmRhPpRLYUMAlIwOdmFsdWVfc2NoZWR1bGWUhZQpdJRSlH2UKIwLX19wYWNrYWdlX1+UjBhzdGFibGVfYmFzZWxpbmVzMy5jb21tb26UjAhfX25hbWVfX5SMHnN0YWJsZV9iYXNlbGluZXMzLmNvbW1vbi51dGlsc5SMCF9fZmlsZV9flIxdL29wdC9hbmFjb25kYTMvZW52cy9CYXNlbGluZXNSTC9saWIvcHl0aG9uMy44L3NpdGUtcGFja2FnZXMvc3RhYmxlX2Jhc2VsaW5lczMvY29tbW9uL3V0aWxzLnB5lHVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUhZR0lFKUaACMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGghfZR9lChoGGgPjAxfX3F1YWxuYW1lX1+UjCFnZXRfc2NoZWR1bGVfZm4uPGxvY2Fscz4uPGxhbWJkYT6UjA9fX2Fubm90YXRpb25zX1+UfZSMDl9fa3dkZWZhdWx0c19flE6MDF9fZGVmYXVsdHNfX5ROjApfX21vZHVsZV9flGgZjAdfX2RvY19flE6MC19fY2xvc3VyZV9flGgAjApfbWFrZV9jZWxslJOUaAIoaAcoSwFLAEsASwFLAUsTQwSIAFMAlGgJKYwBX5SFlGgOjARmdW5jlEuFQwIAAZSMA3ZhbJSFlCl0lFKUaBVOTmgdKVKUhZR0lFKUaCNoPX2UfZQoaBhoNGgmjBljb25zdGFudF9mbi48bG9jYWxzPi5mdW5jlGgofZRoKk5oK05oLGgZaC1OaC5oMEc/uZmZmZmZmoWUUpSFlIwXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaEVdlGhHfZR1hpSGUjAu"
+    },
+    "clip_range_vf": null,
+    "normalize_advantage": true,
+    "target_kl": null,
+    "lr_schedule": {
+        ":type:": "<class 'function'>",
+        ":serialized:": "gAWVqQMAAAAAAACMF2Nsb3VkcGlja2xlLmNsb3VkcGlja2xllIwOX21ha2VfZnVuY3Rpb26Uk5QoaACMDV9idWlsdGluX3R5cGWUk5SMCENvZGVUeXBllIWUUpQoSwFLAEsASwFLA0sTQwx0AIgAfACDAYMBUwCUToWUjAVmbG9hdJSFlIwScHJvZ3Jlc3NfcmVtYWluaW5nlIWUjF0vb3B0L2FuYWNvbmRhMy9lbnZzL0Jhc2VsaW5lc1JML2xpYi9weXRob24zLjgvc2l0ZS1wYWNrYWdlcy9zdGFibGVfYmFzZWxpbmVzMy9jb21tb24vdXRpbHMucHmUjAg8bGFtYmRhPpRLYUMAlIwOdmFsdWVfc2NoZWR1bGWUhZQpdJRSlH2UKIwLX19wYWNrYWdlX1+UjBhzdGFibGVfYmFzZWxpbmVzMy5jb21tb26UjAhfX25hbWVfX5SMHnN0YWJsZV9iYXNlbGluZXMzLmNvbW1vbi51dGlsc5SMCF9fZmlsZV9flIxdL29wdC9hbmFjb25kYTMvZW52cy9CYXNlbGluZXNSTC9saWIvcHl0aG9uMy44L3NpdGUtcGFja2FnZXMvc3RhYmxlX2Jhc2VsaW5lczMvY29tbW9uL3V0aWxzLnB5lHVOTmgAjBBfbWFrZV9lbXB0eV9jZWxslJOUKVKUhZR0lFKUaACMEl9mdW5jdGlvbl9zZXRzdGF0ZZSTlGghfZR9lChoGGgPjAxfX3F1YWxuYW1lX1+UjCFnZXRfc2NoZWR1bGVfZm4uPGxvY2Fscz4uPGxhbWJkYT6UjA9fX2Fubm90YXRpb25zX1+UfZSMDl9fa3dkZWZhdWx0c19flE6MDF9fZGVmYXVsdHNfX5ROjApfX21vZHVsZV9flGgZjAdfX2RvY19flE6MC19fY2xvc3VyZV9flGgAjApfbWFrZV9jZWxslJOUaAIoaAcoSwFLAEsASwFLAUsTQwSIAFMAlGgJKYwBX5SFlGgOjARmdW5jlEuFQwIAAZSMA3ZhbJSFlCl0lFKUaBVOTmgdKVKUhZR0lFKUaCNoPX2UfZQoaBhoNGgmjBljb25zdGFudF9mbi48bG9jYWxzPi5mdW5jlGgofZRoKk5oK05oLGgZaC1OaC5oMEc/Gjbi6xxDLYWUUpSFlIwXX2Nsb3VkcGlja2xlX3N1Ym1vZHVsZXOUXZSMC19fZ2xvYmFsc19flH2UdYaUhlIwhZRSlIWUaEVdlGhHfZR1hpSGUjAu"
+    }
+}

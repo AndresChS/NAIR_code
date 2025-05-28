@@ -1,0 +1,7 @@
+[2024-11-05 10:47:32,554][absl][INFO] - MUJOCO_GL is not set, so an OpenGL backend will be chosen automatically.
+[2024-11-05 10:47:32,555][absl][INFO] - Successfully imported OpenGL backend: glfw
+[2024-11-05 10:47:32,559][absl][INFO] - MuJoCo library version is: 3.1.2
+[2024-11-05 10:47:33,025][skrl][INFO] - Environment wrapper: 'auto' (class: gymnasium.vector.vector_env.VectorEnv)
+[2024-11-05 10:47:33,026][skrl][INFO] - Environment wrapper: gymnasium
+[2024-11-05 10:47:33,595][skrl][INFO] - Closing environment
+[2024-11-05 10:47:33,595][skrl][INFO] - Environment closed

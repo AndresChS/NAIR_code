@@ -1,0 +1,25 @@
+env:
+  num_cpu: 4
+  env_name: ExoLegSpasticityFlexoExtEnv-v0
+  path: /opt/anaconda3/envs/BaselinesRL/lib/python3.8/site-packages/myosuite/envs/nair/MyolegenvV0.py
+collector:
+  batch_size: 4096
+  total_frames: 10000000
+logger:
+  exp_name: MyoExoLegV0_Espasticity
+  test_interval: 5000
+  check_interval: 10000
+  num_test_episodes: 5
+optim:
+  lr: 5.0e-05
+  weight_decay: 0.0
+hiperparameters:
+  gamma: 0.99
+  mini_batch_size: 64
+  ppo_epochs: 10
+  gae_lambda: 0.95
+  clip_range: 0.1
+  clip_range_vf: 0.1
+  critic_coef: 0.5
+  entropy_coef: 0.02
+  use_sde: true

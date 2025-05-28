@@ -1,0 +1,26 @@
+env:
+  num_cpu: 8
+  env_name: ExoLegSpasticityFlexoExtEnv-v0
+collector:
+  batch_size: 2048
+  total_frames: 10000000
+logger:
+  backend: wandb
+  exp_name: MyoExoLegV0_Espasticity
+  test_interval: 5000
+  check_interval: 10000
+  num_test_episodes: 5
+optim:
+  lr: 0.0001
+  weight_decay: 0.0
+  anneal_lr: true
+loss:
+  gamma: 0.99
+  mini_batch_size: 64
+  ppo_epochs: 10
+  gae_lambda: 0.95
+  clip_loss: 0.01
+  anneal_clip_epsilon: false
+  critic_coef: 0.25
+  entropy_coef: 0.0
+  loss_critic_type: l2

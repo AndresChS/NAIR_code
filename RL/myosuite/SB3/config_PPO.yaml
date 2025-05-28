@@ -1,0 +1,42 @@
+# En config_PPO.yaml
+hydra:
+  run:
+    dir: code/RL/SB3/outputs/${env.env_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# task and env
+env:
+  num_cpu: 24
+  env_name: ExoLegSpasticityFlexoExtEnv-v0  #"ExoLeg40MuscFlexoExtEnv-v0"   
+                                        #"ExoLegPassiveFlexoExtEnv-v0"
+                                        #"ExoLegSpasticityFlexoExtEnv-v0"
+  path: /home/nair-group/miniconda3/envs/BaselinesRL/lib/python3.8/site-packages/myosuite/envs/nair/MyolegenvV0.py
+
+# collector
+collector:
+  batch_size: 2048
+  total_frames: 10_000_000
+  
+# logger
+logger:
+  #backend: wandb
+  exp_name: MyoExoLegV0_Espasticity
+  test_interval: 5_000
+  check_interval: 10_000
+  num_test_episodes: 5
+
+# Optim
+optim:
+  lr: 1e-4
+  weight_decay: 0.0
+
+# loss
+hiperparameters:
+  gamma: 0.99
+  mini_batch_size: 64
+  ppo_epochs: 10
+  gae_lambda: 0.95
+  clip_range: 0.1
+  clip_range_vf: 0.1
+  critic_coef: 0.5
+  entropy_coef: 0.03
+  use_sde: True

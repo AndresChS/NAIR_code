@@ -1,0 +1,4 @@
+[2024-07-22 09:33:19,736][absl][INFO] - MUJOCO_GL is not set, so an OpenGL backend will be chosen automatically.
+[2024-07-22 09:33:19,737][absl][INFO] - Successfully imported OpenGL backend: glfw
+[2024-07-22 09:33:19,741][absl][INFO] - MuJoCo library version is: 3.1.2
+[2024-07-22 09:33:19,746][absl][WARNING] - mju_openResource: unknown file '/Users/achs/Documents/PHD/code/myosuite/envs/myoleg_1dof40muscexo/myoleg_1dof40muscexo_V0.xml'

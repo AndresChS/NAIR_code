@@ -1,0 +1,24 @@
+env:
+  env_name: ExoLeg40MuscFlexoExtEnv-v0
+collector:
+  frames_per_batch: 2048
+  total_frames: 10000000
+logger:
+  backend: wandb
+  exp_name: MyoExoLegV0
+  test_interval: 100000
+  num_test_episodes: 5
+optim:
+  lr: 0.0003
+  weight_decay: 0.0
+  anneal_lr: true
+loss:
+  gamma: 0.99
+  mini_batch_size: 32
+  ppo_epochs: 10
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  anneal_clip_epsilon: false
+  critic_coef: 0.25
+  entropy_coef: 0.0
+  loss_critic_type: l2
