@@ -27,7 +27,9 @@ tensorboard --logdir .code/RL/SB3/tensorlogs
 
 # Github sentences
 git add .
+
 git commit -m "Comentario del commit"
+
 git push or git pull
 
 
