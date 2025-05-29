@@ -25,4 +25,9 @@ Instal - Reinstall library
 
 tensorboard --logdir .code/RL/SB3/tensorlogs
 
-hola: estoy probando cositas
+# Github sentences
+git add .
+git commit -m "Comentario del commit"
+git push or git pull
+
+
