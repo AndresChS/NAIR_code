@@ -1,7 +1,7 @@
 # En config_PPO.yaml
 hydra:
   run:
-    dir: outputs/SKRL/${env.env_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+    dir: outputs/${env.env_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
     
 
 # task and env
@@ -12,7 +12,6 @@ env:
   env_name: sconewalk_h0918_osim-v1  #"nair_walk_h1622_exo_hip-v0"   
                                         #"nair_walk_h0918_exo_knee-v1"
                                         #"ExoLegSpasticityFlexoExtEnv-v0"
-  path: /home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/sconegym/nair_gaitgym.py
   torch_dir: null
 # collector
 collector:

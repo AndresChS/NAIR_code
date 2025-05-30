@@ -1,7 +1,7 @@
 import optuna
 import sys
 import gym
-import sconegym
+
 import torch
 from sconetools import sconepy
 import yaml
@@ -18,8 +18,9 @@ from skrl.utils import set_seed
 # ====================================================================
 # Scripts and paths administrations
 # --------------------------------------------------------------------
-trainning_path = "/home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/outputs/SKRL/sconewalk_h0918_osim-v1/2025-04-30/11-02-57"
-sys.path.append('training_path')
+sconegym_path = "NAIR_envs/sconegym"
+sys.path.append('sconegym_path')
+import sconegym
 from torch_gym_nair_H0918_ppo import Policy, Value, CustomPPO
 
 with open(trainning_path+"/.hydra/config.yaml", "r") as file:

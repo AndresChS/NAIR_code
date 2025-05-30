@@ -1,0 +1,4 @@
+[2025-05-30 14:54:40,008][skrl][INFO] - Environment wrapper: 'auto' (class: gym.vector.vector_env.VectorEnv)
+[2025-05-30 14:54:40,008][skrl][INFO] - Environment wrapper: Gym
+[2025-05-30 14:54:40,948][skrl][INFO] - Closing environment
+[2025-05-30 14:54:40,948][skrl][INFO] - Environment closed

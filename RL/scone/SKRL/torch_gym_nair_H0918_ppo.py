@@ -2,9 +2,9 @@
 	Author	:: Andres Chavarrias (andreschavarriassanchez@gmail.com), David Rodriguez, Pablo Lanillos 
 	source	:: https://github.com/AndresChS/NAIR_Code
 """
-
+import sys
+import os
 import gym
-import sconegym
 import torch
 import torch.nn as nn
 import hydra 
@@ -22,6 +22,10 @@ from skrl.resources.schedulers.torch import KLAdaptiveRL
 from skrl.trainers.torch import SequentialTrainer
 from skrl.utils import set_seed
 
+# add scone gym using a relative path
+sconegym_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../NAIR_envs')) 
+sys.path.append(sconegym_path)
+import sconegym
 # Using time to define the unique naming
 start_time = time.time()
 today = datetime.now().strftime('%Y-%m-%d')  # Format: YYYY-MM-DD
@@ -176,8 +180,8 @@ def main(cfg_hydra):
     cfg_trainer = {"timesteps": cfg_hydra.collector.num_steps, "headless": True}
     trainer = SequentialTrainer(cfg=cfg_trainer, env=env, agents=[agent])
 
-    shutil.copy(cfg_hydra.env.path, ".")
-    shutil.copy("/home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/torch_gym_nair_H0918_ppo.py", ".")
+    #shutil.copy(os.path.dirname(__file__) + "../../../../NAIR_envs/sconegym/nair_gaitgym.py", ".")
+    #shutil.copy("/home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/torch_gym_nair_H0918_ppo.py", ".")
     # start training
     trainer.train()
     env.close()

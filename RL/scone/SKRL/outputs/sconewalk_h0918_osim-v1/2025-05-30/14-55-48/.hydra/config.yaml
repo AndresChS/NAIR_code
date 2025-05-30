@@ -1,0 +1,37 @@
+env:
+  algorithm: PPO
+  num_cpu: 8
+  use_delayed_sensors: true
+  env_name: sconewalk_h0918_osim-v1
+  torch_dir: null
+collector:
+  buffer_size: 5000000
+  num_steps: 100000
+logger:
+  exp_name: nair_walk_h0918_exo_knee_Espasticity_SAC
+  write_interval: 500
+  test_interval: 5000
+  check_interval: 100
+  num_test_episodes: 5
+optim:
+  lr: 0.001
+  optimizer: KLAdaptiveRL
+  optimizer_kwargs:
+    kl_threshold: 0.008
+  weight_decay: 0.0
+  anneal_lr: true
+hiperparameters:
+  discount_factor: 0.9
+  lambda_factor: 0.95
+  clip_norm: 0.5
+  ratio_clip: 0.2
+  value_clip: 0.2
+  clip_predicted_values: false
+  entropy_loss: 0
+  value_loss: 0.5
+  kl_threshold: 0
+  batch_size: 1024
+  mini_batches: 32
+  learning_epochs: 10
+  train_freq: 1
+  gradient_steps: -1
