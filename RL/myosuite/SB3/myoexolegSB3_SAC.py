@@ -175,7 +175,7 @@ if __name__ == "__main__":
 # WARN: env.mj_render to get variables from other wrappers is deprecated 
 # and will be removed in v1.0, to get this variable you can do `env.unwrapped.mj_render` 
 # for environment variables or `env.get_wrapper_attr('mj_render')` that will search the reminding wrappers.
-
+"""
 from myosuite.utils import gym
 from typing import Callable, Dict, List, Optional, Tuple, Type, Union
 import numpy as np
@@ -217,6 +217,5 @@ if __name__ == "__main__":
     # The noise objects for DDPG
     n_actions = envs.action_space.shape[-1]
     action_noise = NormalActionNoise(mean=np.zeros(n_actions), sigma=0.1 * np.ones(n_actions))
-
-
+"""
 

@@ -10,7 +10,7 @@ env:
   env_name: ExoLegSpasticityFlexoExtEnv-v0  #"ExoLeg40MuscFlexoExtEnv-v0"   
                                         #"ExoLegPassiveFlexoExtEnv-v0"
                                         #"ExoLegSpasticityFlexoExtEnv-v0"
-  path: /home/nair-group/miniconda3/envs/BaselinesRL/lib/python3.8/site-packages/myosuite/envs/nair/MyolegenvV0.py
+  path: /home/achs/Documents/achs/code/NAIR_envs/myosuite/nair_envs/nair_envs/MyolegenvV0.py
 
 # collector
 collector:

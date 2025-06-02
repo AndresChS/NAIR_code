@@ -48,7 +48,7 @@ def make_env(env_id: str, num_env = 0, seed: int = 0, delayed_sensors=True):
             print("sconewalk_h0918_osim-v1 not found. Trying {}".format(env_id))
         env = gym.vector.make(env_id, num_envs=4, asynchronous=False)
         env = wrap_env(env)
-        device = env.device
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         return env
     
     return _init
@@ -121,7 +121,7 @@ def main(cfg_hydra):
     env = wrap_env(env)
     print("observation space wrap", env.observation_space)
     # note: the environment version may change depending on the gym version
-    device = env.device
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     # instantiate a memory as rollout buffer (any memory can be used for this)
     memory = RandomMemory(memory_size=cfg_hydra.hiperparameters.batch_size, num_envs=env.num_envs, device=device)
 
