@@ -1,0 +1,42 @@
+# En config_PPO.yaml
+hydra:
+  run:
+    dir: outputs/${env.env_name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# task and env
+env:
+
+  num_cpu: 8
+  env_name: sconewalk_h0918_osim-v1 #"ExoLeg40MuscFlexoExtEnv-v0"   
+                                        #"ExoLegPassiveFlexoExtEnv-v0"
+                                        #"ExoLegSpasticityFlexoExtEnv-v0"
+  path: /home/achs/Documents/achs/code/NAIR_envs/myosuite/nair_envs/nair_envs/MyolegenvV0.py
+
+# collector
+collector:
+  buffer_size: 5_000_000
+  num_steps: 50_000_000
+  
+
+# logger
+logger:
+  #backend: wandb
+  exp_name: MyoExoLegV0_Espasticity_DDPG
+  test_interval: 5_000
+  check_interval: 10_000
+  num_test_episodes: 5
+
+# Optim
+optim:
+  lr: 1e-4
+  weight_decay: 0.0
+  anneal_lr: True
+
+# loss
+hiperparameters:
+  tau: 0.005
+  gamma: 0.99
+  learning_starts: 100
+  batch_size: 4096
+  train_freq: 1
+  gradient_steps: -1

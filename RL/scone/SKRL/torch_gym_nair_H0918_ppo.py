@@ -46,7 +46,7 @@ def make_env(env_id: str, num_env = 0, seed: int = 0, delayed_sensors=True):
         except gym.error.DeprecatedEnv as e:
             env_id = [spec.id for spec in gym.envs.registry.all() if spec.id.startswith("nair")][0]
             print("sconewalk_h0918_osim-v1 not found. Trying {}".format(env_id))
-        env = gym.vector.make(env_id, num_envs=4, asynchronous=False)
+        env = gym.vector.make(env_id, num_envs=2, asynchronous=False)
         env = wrap_env(env)
         device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         return env
@@ -58,15 +58,19 @@ def make_env(env_id: str, num_env = 0, seed: int = 0, delayed_sensors=True):
 # --------------------------------------------------------------------
 
 class CustomPPO(PPO):
-    def __init__(self, *args, **kwargs):
+
+    def __init__(self, *args, env=None, **kwargs):
         super().__init__(*args, **kwargs)
+        if env is not None:
+            self.envs = env  # si es un único entorno
+            # self.envs = env   # si es vectorizado
 
     def post_interaction(self, timestep: int, timesteps: int):
         super().post_interaction(timestep, timesteps)
         #print("acciones", env.observations)
-        if timestep % 1000 == 0:
+        if timestep % 25000 == 0:
             print(f"[Custom PPO] Paso {timestep} de {timesteps}")
-            #print("reward", self.env._rewards)
+            print("reward", self.envs._rewards)
 
 # seed for reproducibility
 set_seed()  # e.g. `set_seed(42)` for fixed seed
@@ -104,7 +108,7 @@ class Value(DeterministicMixin, Model):
         return self.net(inputs["states"]), {}
 
 
-@hydra.main(config_path=".", config_name="config_PPO")
+@hydra.main(config_path=".", config_name="config_PPO", version_base="1.1")
 def main(cfg_hydra): 
 
     env_id = cfg_hydra.env.env_name
@@ -172,9 +176,9 @@ def main(cfg_hydra):
                 cfg=cfg,
                 observation_space=env.observation_space,
                 action_space=env.action_space,
-                device=device
+                device=device,
+                env=env
                 )
-
 
     # configure and instantiate the RL trainer
     cfg_trainer = {"timesteps": cfg_hydra.collector.num_steps, "headless": True}

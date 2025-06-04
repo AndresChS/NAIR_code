@@ -1,8 +1,7 @@
-import sys
+import sys, os
 import time
 from datetime import datetime
 import gym
-import sconegym
 import torch
 from sconetools import sconepy
 import yaml
@@ -13,6 +12,9 @@ from skrl.resources.preprocessors.torch import RunningStandardScaler
 from skrl.resources.schedulers.torch import KLAdaptiveRL
 from skrl.utils import set_seed
 
+sconegym_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../NAIR_envs')) 
+sys.path.append(sconegym_path)
+import sconegym
 today = datetime.now().strftime('%Y-%m-%d')  # Format: YYYY-MM-DD
 # ====================================================================
 # Scone step simulation definition
@@ -54,11 +56,11 @@ def scone_step(model, actions, use_neural_delays=True, step=0):
 # ====================================================================
 # RL controller definition
 # --------------------------------------------------------------------
-def SKRL_controller(state, env_eval, step, timesteps):
-	obs_tensor = torch.tensor(state, dtype=torch.float32).unsqueeze(0)
+def SKRL_controller(state, env_eval, step, timesteps, device):
+	obs_tensor = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
 	action_tensor, _, _ = agent.act(obs_tensor, timestep=step, timesteps=timesteps)
 	#actions, log_prob, outputs = agent.act(obs_tensor, timestep=step, timesteps=timesteps)
-	action = action_tensor.squeeze(0).detach().numpy()
+	action = action_tensor.squeeze(0).detach().cpu().numpy()
 	print("reward: ", env_eval._get_rew())
 	return action, env_eval.step(action)
 	#state, reward, terminated, info = env_eval.step(action)
@@ -66,7 +68,7 @@ def SKRL_controller(state, env_eval, step, timesteps):
 # ====================================================================
 # Scripts and paths administrations
 # --------------------------------------------------------------------
-trainning_path = "/home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/outputs/SKRL/sconewalk_h0918_osim-v1/2025-04-30/11-02-57"
+trainning_path = "/home/achs/Documents/achs/code/NAIR_code/RL/scone/SKRL/outputs/nair_walk_h0918-v0/2025-06-03/14-01-02"
 sys.path.append('training_path')
 from torch_gym_nair_H0918_ppo import Policy, Value, CustomPPO
 
@@ -95,6 +97,8 @@ except gym.error.DeprecatedEnv as e:
     print(config_env["env_name"], " not found. Trying {}".format(env_id))
 # Wrap environmet for use torch tensors operations
 env = wrap_env(env)
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+        
 from gym.spaces import Box
 from skrl.utils import spaces as skrl_spaces
 print("observation space wrap", env.observation_space)
@@ -163,11 +167,11 @@ episode_reward =0
 store_data = True
 use_neural_delays = config_env["use_delayed_sensors"]
 random_seed =1
-min_com_height = 0.3 #minimun heigth to abort the simulation
+min_com_height = 0 #minimun heigth to abort the simulation
 # ====================================================================
 # Sconepy model initialitation
 # --------------------------------------------------------------------
-model = sconepy.load_model("/home/achs/Documents/AChS/PHD/code/NAIR_Code/envs/sconegym/sconegym/data-v1/H0918_osim.scone")
+model = sconepy.load_model("../../../../NAIR_envs/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoV0.scone")
 model.reset()
 model.set_store_data(store_data)
 
@@ -185,7 +189,7 @@ for step in range(timesteps):
 
 	steps = step
 	step= step*timestep
-	actions, (state, reward, terminated, info) = SKRL_controller(state, env_eval, step, timesteps)
+	actions, (state, reward, terminated, info) = SKRL_controller(state, env_eval, step, timesteps, device=device)
 	model_com_pos, model_time = scone_step(model, actions, use_neural_delays=True, step=step)
 	episode_reward += reward
 	com_y = model.com_pos().y
@@ -193,7 +197,6 @@ for step in range(timesteps):
 	if com_y < min_com_height:
 		print(f"Aborting simulation at t={model.time():.2f} com_y={com_y:.4f}")
 		break
-	
 
 print(f"Episode completed in {steps} steps with total reward: {episode_reward:.2f}")
 env_eval.close()

@@ -1,7 +1,7 @@
 import optuna
-import sys
+import sys, os
 import gym
-
+import hydra
 import torch
 from sconetools import sconepy
 import yaml
@@ -14,35 +14,42 @@ from skrl.resources.schedulers.torch import KLAdaptiveRL
 from skrl.trainers.torch import SequentialTrainer, Trainer
 from skrl.utils import set_seed
 
-
 # ====================================================================
 # Scripts and paths administrations
 # --------------------------------------------------------------------
-sconegym_path = "NAIR_envs/sconegym"
-sys.path.append('sconegym_path')
+from torch_gym_nair_H0918_ppo import Policy, Value
+
+sconegym_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../NAIR_envs')) 
+sys.path.append(sconegym_path)
 import sconegym
-from torch_gym_nair_H0918_ppo import Policy, Value, CustomPPO
 
-with open(trainning_path+"/.hydra/config.yaml", "r") as file:
-    config = yaml.safe_load(file)
+# ====================================================================
+# Policy and value definition
+# --------------------------------------------------------------------
+class CustomPPO(PPO):
 
-config_env = config["env"]
-config_logger = config["logger"]
-config_optim = config["optim"]
-config_hiperparameters = config["hiperparameters"]
-
+    def __init__(self, *args, env=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if env is not None:
+            self.envs = env  # si es un único entorno
+            # self.envs = env   # si es vectorizado
 set_seed()
-# Path to the trained model checkpoint
-best_model_path = trainning_path+"/runs/outputs/checkpoints/best_agent.pt"
-
 
 # ====================================================================
 # Model parameters loading and instantiation
 # --------------------------------------------------------------------
 # configure and instantiate the agent (visit its documentation to see all the options)
 # https://skrl.readthedocs.io/en/latest/api/agents/ppo.html#configuration-and-hyperparameters
+with open("config_PPO.yaml", "r") as file:
+    config = yaml.safe_load(file)
+print(config)
+config_env = config["env"]
+config_logger = config["logger"]
+config_optim = config["optim"]
+config_hiperparameters = config["hiperparameters"]
+
 cfg = PPO_DEFAULT_CONFIG.copy()
-cfg["rollouts"] = config_hiperparameters["batch_size"]  # memory_size
+#cfg["rollouts"] = config_hiperparameters["batch_size"]  # memory_size
 cfg["learning_epochs"] = config_hiperparameters["learning_epochs"]
 cfg["mini_batches"] = config_hiperparameters["mini_batches"]
 cfg["discount_factor"] = config_hiperparameters["discount_factor"]
@@ -111,10 +118,11 @@ def objective(trial):
             cfg=cfg,
             observation_space=env.observation_space,
             action_space=env.action_space,
-            device=device
+            device=device,
+            env=env
             )
     
-    cfg_trainer = {"timesteps": 10, "headless": True}
+    cfg_trainer = {"timesteps": 10000, "headless": True}
     trainer = SequentialTrainer(cfg=cfg_trainer, env=env, agents=[agent])
     trainer.train()
 
