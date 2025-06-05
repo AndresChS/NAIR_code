@@ -15,6 +15,8 @@ import torch.optim as optim
 from torch.distributions import Normal
 import numpy as np
 
+# Import algorithms models from nair PPO, SAC, DDPG
+from nair_agents import get_models
 # add scone gym using a relative path
 sconegym_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../NAIR_envs')) 
 sys.path.append(sconegym_path)
@@ -24,6 +26,19 @@ start_time = time.time()
 today = datetime.now().strftime('%Y-%m-%d')  # Format: YYYY-MM-DD
 time_now = datetime.now().strftime('%H-%M-%S')  # Format: HH-MM-SS
 
+
+
+
+agent = "PPO"  # o "PPO", "DDPG"
+obs_dim = 96
+act_dim = 18
+
+actor, critic = get_models(agent, obs_dim, act_dim)
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+actor.to(device)
+critic.to(device)
+
+print(f"{agent.upper()} charged. Actor in {next(actor.parameters()).device}")
 
 # === Hiperparámetros ===
 LR = 3e-4
