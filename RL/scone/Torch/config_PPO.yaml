@@ -15,9 +15,10 @@ env:
   torch_dir: null
 # collector
 collector:
-  buffer_size: 5_000_000
-  num_steps: 10_000_000
-  
+  frames_per_batch: 1000
+  total_frames: 10_000_000
+  learning_epochs: 5
+  buffer_size: 1000
 
 # logger
 logger:
@@ -38,17 +39,11 @@ optim:
 
 # loss
 hiperparameters:
-  discount_factor: 0.9
-  lambda_factor: 0.95
-  clip_norm: 0.5
-  ratio_clip: 0.2
-  value_clip: 0.2
-  clip_predicted_values: False
-  entropy_loss: 0
-  value_loss: 0.5
-  kl_threshold: 0
+  clip_epsilon: 0.2
+  entropy_coef: 0.9
+  critic_coef: 1.0
+  lmbda: 0.95
+  gamma: 0.99 
   batch_size: 1024
-  mini_batches: 32
-  learning_epochs: 10
-  train_freq: 1
-  gradient_steps: -1
+  mini_batch_size : 64
+  max_grad_norm: 1.0

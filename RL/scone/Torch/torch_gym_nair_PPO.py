@@ -64,7 +64,7 @@ def make_env(env_id: str, num_env = 0, seed: int = 0, delayed_sensors=True):
             env = gym.vector.make(env_id, use_delayed_sensors=delayed_sensors, num_envs=num_env, asynchronous=False)
         except gym.error.DeprecatedEnv as e:
             env_id = [spec.id for spec in gym.envs.registry.all() if spec.id.startswith("nair")][0]
-            print("sconewalk_h0918_osim-v1 not found. Trying {}".format(env_id))
+            print(env_id, " not found. Trying {}".format(env_id))
         env = gym.vector.make(env_id, num_envs=2, asynchronous=False)
         env = gym.wrap_env(env)
         return env

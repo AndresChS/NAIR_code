@@ -35,7 +35,7 @@ def inspect_mjdata(data):
             print(f"Could not access attribute {attr}: {e}")
 
 # Example usage
-env = gym.make('ExoLeg40MuscFlexoExtEnv-v0')
+env = gym.make('ExoLegSpasticityFlexoExtEnv')
 env.reset()
 data = env.sim.data
 
@@ -47,7 +47,7 @@ db = client["0_env_data"]
 experiment = 'knee_angles_raw'
 
 def run_simulation(num_steps, torque):
-    env = gym.make('ExoLeg40MuscFlexoExtEnv-v0')
+    env = gym.make('ExoLegSpasticityFlexoExtEnv')
     env.reset()
     data = env.sim.data
     actions = np.zeros(41)
@@ -70,7 +70,7 @@ def run_simulation(num_steps, torque):
             'qpos': data.qpos.tolist(),
         
         }
-
+        db.experiments_results.insert_one(data_dict)
     env.reset()
 
     env.close()
@@ -78,7 +78,7 @@ def run_simulation(num_steps, torque):
     return 
 
 # Open and reset Environment
-env = gym.make('ExoLeg40MuscFlexoExtEnv-v0')
+env = gym.make('ExoLegSpasticityFlexoExtEnv')
 env.reset()
 
 #Simulation parameters
