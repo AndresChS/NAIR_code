@@ -56,7 +56,6 @@ import sconegym
 # Import algorithms models from nair PPO, SAC, DDPG
 from nair_agents import get_models
 
-
 @hydra.main(config_path=".", config_name="config_PPO", version_base="1.1")
 def main(cfg_hydra: DictConfig):
     start_time = time.time()
@@ -191,6 +190,7 @@ def main(cfg_hydra: DictConfig):
                 torch.nn.utils.clip_grad_norm_(loss_module.parameters(), cfg_hydra.hiperparameters.max_grad_norm)
                 optim.step()
                 optim.zero_grad()
+
         
 if __name__ == "__main__":
     main()

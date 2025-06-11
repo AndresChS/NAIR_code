@@ -9,7 +9,7 @@ env:
   algorithm: PPO
   num_cpu: 1
   use_delayed_sensors: True
-  env_name: nair_walk_h0918-v0  #"nair_walk_h1622_exo_hip-v0"   
+  env_name: nair_walk_h0918-v0 #"nair_walk_h1622_exo_hip-v0"   
                                         #"nair_walk_h0918_exo_knee-v1"
                                         #"ExoLegSpasticityFlexoExtEnv-v0"
   torch_dir: null
