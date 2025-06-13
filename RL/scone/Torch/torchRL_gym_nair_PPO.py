@@ -5,6 +5,7 @@
 
 import sys
 import os
+import shutil
 import gym
 import hydra
 import time
@@ -13,7 +14,6 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torchrl.envs import GymWrapper, TransformedEnv
-from torchrl.envs.transforms import ObservationNorm
 from torchrl.collectors import SyncDataCollector
 from torchrl.data.replay_buffers import LazyTensorStorage, ReplayBuffer
 from torchrl.objectives import ClipPPOLoss
@@ -40,9 +40,7 @@ from torchrl.collectors import SyncDataCollector
 from torchrl.data.replay_buffers import ReplayBuffer
 from torchrl.data.replay_buffers.samplers import SamplerWithoutReplacement
 from torchrl.data.replay_buffers.storages import LazyTensorStorage
-from torchrl.envs import (Compose, DoubleToFloat, ObservationNorm, StepCounter,
-                          TransformedEnv)
-from torchrl.envs.libs.gym import GymEnv
+from torchrl.envs import Compose, DoubleToFloat, ObservationNorm, StepCounter, TransformedEnv
 from torchrl.envs.utils import check_env_specs, ExplorationType, set_exploration_type
 from torchrl.modules import ProbabilisticActor, TanhNormal, ValueOperator
 from torchrl.objectives import ClipPPOLoss
@@ -52,16 +50,20 @@ from tqdm import tqdm
 # Add scone gym
 sconegym_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../../../NAIR_envs'))
 sys.path.append(sconegym_path)
-import sconegym
+import sconegym # type: ignore
 # Import algorithms models from nair PPO, SAC, DDPG
 from nair_agents import get_models
+init_dir = os.getcwd()
 
 @hydra.main(config_path=".", config_name="config_PPO", version_base="1.1")
 def main(cfg_hydra: DictConfig):
     start_time = time.time()
     today = datetime.now().strftime('%Y-%m-%d')
     time_now = datetime.now().strftime('%H-%M-%S')
-    output_dir = os.path.join(os.getcwd(), f"results/{today}_{time_now}")
+    #shutil.copy(os.path.dirname(__file__) + "../../../../NAIR_envs/sconegym/nair_gaitgym.py", ".")
+    shutil.copy(init_dir+"/config_PPO.yaml", ".")
+    shutil.copy(init_dir+"/torchRL_gym_nair_PPO.py", ".")
+    output_dir = os.path.join(os.getcwd(), f"outputs/checkpoints")
     os.makedirs(output_dir, exist_ok=True)
 
     env_id = cfg_hydra.env.env_name
@@ -166,8 +168,13 @@ def main(cfg_hydra: DictConfig):
     logs = defaultdict(list)
     pbar = tqdm(total=cfg_hydra.collector.total_frames)
     eval_str = ""
+    best_reward = -float("inf")  # Para guardar el mejor agente
+    global_step = 0  # Contador de steps
     for i, tensordict_data in enumerate(collector):
-        pbar.update(tensordict_data.numel())
+        batch_size = tensordict_data.numel()
+        global_step += batch_size
+        pbar.update(batch_size)
+
         for _ in range(cfg_hydra.collector.learning_epochs):
             advantage_module(tensordict_data)
             data_view = tensordict_data.reshape(-1)
@@ -175,8 +182,7 @@ def main(cfg_hydra: DictConfig):
 
             for _ in range(cfg_hydra.collector.frames_per_batch // cfg_hydra.hiperparameters.mini_batch_size):
                 subdata = replay_buffer.sample(cfg_hydra.hiperparameters.mini_batch_size).to(device)
-                
-                # Ensure correct batch shape for actor_network
+
                 if subdata.batch_size != torch.Size([]):
                     subdata.batch_size = []
 
@@ -191,6 +197,17 @@ def main(cfg_hydra: DictConfig):
                 optim.step()
                 optim.zero_grad()
 
+        # Guardar checkpoint cada 10,000 pasos
+        if global_step % 10_000 < batch_size:
+            checkpoint_path = os.path.join(output_dir, f"checkpoint_{global_step}.pt")
+            torch.save({
+                "step": global_step,
+                "actor": policy.state_dict(),
+                "critic": value.state_dict() if 'critic_network' in locals() else None,
+                "optimizer": optim.state_dict(),
+            }, checkpoint_path)
         
+
+
 if __name__ == "__main__":
     main()

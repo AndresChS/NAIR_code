@@ -68,7 +68,7 @@ def SKRL_controller(state, env_eval, step, timesteps, device):
 # ====================================================================
 # Scripts and paths administrations
 # --------------------------------------------------------------------
-trainning_path = "/home/achs/Documents/achs/code/NAIR_code/RL/scone/SKRL/outputs/nair_walk_h0918-v0/2025-06-03/14-01-02"
+trainning_path = "/home/achs/Documents/achs/code/NAIR_code/RL/scone/SKRL/outputs/nair_walk_h0918-v0/2025-06-12/11-55-14"
 sys.path.append('training_path')
 from torch_gym_nair_H0918_ppo import Policy, Value, CustomPPO
 
@@ -171,7 +171,7 @@ min_com_height = 0 #minimun heigth to abort the simulation
 # ====================================================================
 # Sconepy model initialitation
 # --------------------------------------------------------------------
-model = sconepy.load_model("../../../../NAIR_envs/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoV0.scone")
+model = sconepy.load_model("../../../../NAIR_envs/sconegym/nair_envs/H0918_Spasticity/H0918_KneeExoRLV0.scone")
 model.reset()
 model.set_store_data(store_data)
 
@@ -190,6 +190,7 @@ for step in range(timesteps):
 	steps = step
 	step= step*timestep
 	actions, (state, reward, terminated, info) = SKRL_controller(state, env_eval, step, timesteps, device=device)
+	#env_eval.sim.renderer.render_to_window()
 	model_com_pos, model_time = scone_step(model, actions, use_neural_delays=True, step=step)
 	episode_reward += reward
 	com_y = model.com_pos().y

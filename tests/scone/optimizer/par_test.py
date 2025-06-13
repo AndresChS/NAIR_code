@@ -32,36 +32,18 @@ def scone_step(model, muscles_actions, motor_torque, use_neural_delays=True, ste
 	param = model.get_control_parameter_names()
 	#print([model.get_control_parameter(m) for m in param])
 	muscle_activations = muscles_actions
-	model.init_muscle_activations(muscle_activations)
-	#dof_positions = model.dof_position_array()
-	#model.set_dof_positions(dof_positions)
-	#model.init_state_from_dofs()
-	# The model inputs are computed here
-	# We use an example controller that mimics basic monosynaptic reflexes
-	# by simply adding the muscle force, length and velocity of a muscle
-	# and feeding it back as input to the same muscle
-	if use_neural_delays:
-		# Read sensor information WITH neural delays
-		mus_in = model.delayed_muscle_force_array()
-		mus_in += model.delayed_muscle_fiber_length_array() - 1.2
-		mus_in += 0.1 * model.delayed_muscle_fiber_velocity_array()
-	else:
-		# Read sensor information WITHOUT neural delays
-		mus_in = model.muscle_force_array()
-		mus_in += model.muscle_fiber_length_array() - 1
-		mus_in += 0.2 * model.muscle_fiber_velocity_array()
+	#mus_in = model.actuator_input_array()
+	#print(mus_in)
+	#model.set_actuator_inputs(mus_in)
+	#print(model.actuator_input_array())
+	#model.init_muscle_activations(muscle_activations)
 	
 	motor_torque = np.array([motor_torque])
 	#print("torque: ", motor_torque, "	mus_in: ", mus_in)
-	#mus_in = np.concatenate((mus_in,motor_torque))
+	mus_in = np.concatenate((muscle_activations,motor_torque))
+	#print(mus_in)
+	model.set_actuator_inputs(mus_in)
 	# The muscle inputs (excitations) are set here
-	
-	if use_neural_delays:
-		# Set muscle excitation WITH neural delays
-		model.set_delayed_actuator_inputs(mus_in)
-	else:
-		# Set muscle excitation WITHOUT neural delays
-		model.set_actuator_inputs(mus_in)
 	
 	model.advance_simulation_to(step)
 
@@ -70,30 +52,35 @@ def scone_step(model, muscles_actions, motor_torque, use_neural_delays=True, ste
 # ====================================================================
 # Sconepy model initialitation
 # --------------------------------------------------------------------
-model = sconepy.load_model(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoRLV0.scone", sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/0069_64.442_0.596.par")
-model.reset()
-#par.import_values( par_file );
-#model = mo->CreateModelFromParams( par );
-sconepy.evaluate_par_file(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/0069_64.442_0.596.par")
-param = model.get_control_parameter_names()
-print([model.get_control_parameter(m) for m in param])
 store_data = True
 use_neural_delays = False
+model = sconepy.load_model(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoRLV0.scone", sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/gait.par")
+model.reset()
 model.set_store_data(store_data)
-
-dirname = "sconetest_" + "LLS" + "_" + model.name() + "_" + today
-
+#par.import_values( par_file );
+#model = mo->CreateModelFromParams( par );
+sconepy.evaluate_par_file(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/spas_gait.par")
+param = model.get_control_parameter_names()
+print([model.get_control_parameter(m) for m in param])
 
 # Configuration  of time steps and simulation time
 max_time = 5 # In seconds
 timestep = 0.005
 timesteps = int(max_time / timestep)
+
 # ====================================================================
 # Controller loop and main function
 # --------------------------------------------------------------------
 com_y_list = []
 time_list = []
 pos_list = []
+
+# IMPORTANT: Call init_state_from_dofs() to actually apply the dofs set previously
+# This will also equilibrate the muscles based on their activation level
+dof_positions = model.dof_position_array()
+model.set_dof_positions(dof_positions)
+model.init_state_from_dofs()
+
 # Controller loop: iterate directly over the data
 for step in range(timesteps):
 
@@ -105,17 +92,21 @@ for step in range(timesteps):
 	#actions = 0 * rng.random((len(model.muscles())))
 	# Use current_time and current_pos in your logic
 	#print(f"Step {dt}: time={current_time:.4f}, pos={current_pos:.4f}, setpoint={current_setpoint:.4f}, torque={torque:.4f}", )
+	#model.advance_simulation_to(step*timestep)
 	model_com_pos, model_time = scone_step(model, motor_torque=0, muscles_actions=actions, use_neural_delays=False, step=step*timestep)
-    
+	#model_com_pos = model.com_pos()
+	#model_time = model.time()
 	pos_list.append(current_pos)
 	com_y_list.append(model.com_pos().y)
-	#print(dofs[2].name(), dofs[2].pos())
+	#print(dofs[2].name(), dofs[2].pos(), "time:  ",model_time)
 	time_list.append(step*timestep)
+	
 # --------------------------------------------
 # Plotear resultados
 # --------------------------------------------
 mus = model.dofs()   
 print([m.name() for m in mus])
+print(len(pos_list), "	", len(com_y_list))
 plt.figure(figsize=(10, 5))
 plt.plot(time_list, com_y_list, label='pos_pelvis_y', linewidth=2)
 plt.plot(time_list, pos_list, label='com_y', linestyle='--', linewidth=2)
@@ -147,7 +138,8 @@ print(joints[1].name(), joints[1].pos())
 
 """
 if store_data:
-	filename = model.name() + f'_{model.time():0.2f}_'+ today + "test_exo_gait_par_no_musin"
+	dirname = "sconetest_" + "par" + "_" + model.name() + "_" + today
+	filename = model.name() + f'_{model.time():0.2f}_'+ today + "par_test"
     
 	if use_neural_delays: dirname += "_delay"
 	model.write_results(dirname, filename)
