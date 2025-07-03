@@ -54,14 +54,16 @@ def scone_step(model, muscles_actions, motor_torque, use_neural_delays=True, ste
 # --------------------------------------------------------------------
 store_data = True
 use_neural_delays = False
-model = sconepy.load_model(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoRLV0.scone", sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/gait.par")
+model_path = sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/H0918_KneeExoRLV0.scone"
+par_path = sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/gait_GH/gait_GH.par"
+model = sconepy.load_model(model_path, par_path)
 model.reset()
 model.set_store_data(store_data)
 #par.import_values( par_file );
 #model = mo->CreateModelFromParams( par );
-sconepy.evaluate_par_file(sconegym_path+"/sconegym/nair_envs/H0918_KneeExo/par/spas_gait.par")
+sconepy.evaluate_par_file(par_path)
 param = model.get_control_parameter_names()
-print([model.get_control_parameter(m) for m in param])
+#print([model.get_control_parameter(m) for m in param])
 
 # Configuration  of time steps and simulation time
 max_time = 5 # In seconds
@@ -93,7 +95,11 @@ for step in range(timesteps):
 	# Use current_time and current_pos in your logic
 	#print(f"Step {dt}: time={current_time:.4f}, pos={current_pos:.4f}, setpoint={current_setpoint:.4f}, torque={torque:.4f}", )
 	#model.advance_simulation_to(step*timestep)
-	model_com_pos, model_time = scone_step(model, motor_torque=0, muscles_actions=actions, use_neural_delays=False, step=step*timestep)
+	motor_torque=0
+	if step%100==0:
+		motor_torque = 100
+		print("hola")
+	model_com_pos, model_time = scone_step(model, motor_torque=motor_torque, muscles_actions=actions, use_neural_delays=False, step=step*timestep)
 	#model_com_pos = model.com_pos()
 	#model_time = model.time()
 	pos_list.append(current_pos)
@@ -105,8 +111,8 @@ for step in range(timesteps):
 # Plotear resultados
 # --------------------------------------------
 mus = model.dofs()   
-print([m.name() for m in mus])
-print(len(pos_list), "	", len(com_y_list))
+#print([m.name() for m in mus])
+#print(len(pos_list), "	", len(com_y_list))
 plt.figure(figsize=(10, 5))
 plt.plot(time_list, com_y_list, label='pos_pelvis_y', linewidth=2)
 plt.plot(time_list, pos_list, label='com_y', linestyle='--', linewidth=2)
@@ -118,7 +124,7 @@ plt.grid(True)
 plt.tight_layout()
 plt.show()
 act = model.actuators()    
-print([m.name() for m in act])
+#print([m.name() for m in act])
 """   
 print(f"Episode completed in {current_time} steps")
  
@@ -139,7 +145,7 @@ print(joints[1].name(), joints[1].pos())
 """
 if store_data:
 	dirname = "sconetest_" + "par" + "_" + model.name() + "_" + today
-	filename = model.name() + f'_{model.time():0.2f}_'+ today + "par_test"
+	filename = model.name() + f'_{model.time():0.2f}_'+ today + "par_test_gait_GH"
     
 	if use_neural_delays: dirname += "_delay"
 	model.write_results(dirname, filename)

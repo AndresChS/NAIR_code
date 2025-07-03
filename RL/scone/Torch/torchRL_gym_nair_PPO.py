@@ -55,6 +55,22 @@ import sconegym # type: ignore
 from nair_agents import get_models
 init_dir = os.getcwd()
 
+def evaluate_agent(policy, env, num_episodes=5, device="cpu"):
+    policy.eval()
+    total_reward = 0.0
+    for _ in range(num_episodes):
+        obs = env.reset()
+        done = False
+        ep_reward = 0.0
+        while not done:
+            with torch.no_grad():
+                action = policy(obs.to(device)).sample()
+            obs, reward, done, _ = env.step(action.cpu())
+            ep_reward += reward
+        total_reward += ep_reward
+    policy.train()
+    return total_reward / num_episodes
+
 @hydra.main(config_path=".", config_name="config_PPO", version_base="1.1")
 def main(cfg_hydra: DictConfig):
     start_time = time.time()
@@ -169,6 +185,7 @@ def main(cfg_hydra: DictConfig):
     pbar = tqdm(total=cfg_hydra.collector.total_frames)
     eval_str = ""
     best_reward = -float("inf")  # Para guardar el mejor agente
+    best_checkpoint_path = None
     global_step = 0  # Contador de steps
     for i, tensordict_data in enumerate(collector):
         batch_size = tensordict_data.numel()
@@ -206,8 +223,21 @@ def main(cfg_hydra: DictConfig):
                 "critic": value.state_dict() if 'critic_network' in locals() else None,
                 "optimizer": optim.state_dict(),
             }, checkpoint_path)
-        
+            """
+            current_reward = evaluate_agent(policy, env)  # <- necesitas implementar esta función
 
-
+            # Si la recompensa mejora, guarda como mejor agente
+            if current_reward > best_reward:
+                best_reward = current_reward
+                best_checkpoint_path = os.path.join(output_dir, "best_agent.pt")
+                torch.save({
+                    "step": global_step,
+                    "actor": policy.state_dict(),
+                    "critic": value.state_dict() if 'critic_network' in locals() else None,
+                    "optimizer": optim.state_dict(),
+                    "best_reward": best_reward,
+                }, best_checkpoint_path)
+                print(f"Saving new best agent con recompensa {best_reward:.2f}")
+            """
 if __name__ == "__main__":
     main()

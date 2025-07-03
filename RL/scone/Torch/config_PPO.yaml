@@ -9,7 +9,7 @@ env:
   algorithm: PPO
   num_cpu: 1
   use_delayed_sensors: True
-  env_name: nair_walk_h0918-v0 #"nair_walk_h1622_exo_hip-v0"   
+  env_name: nair_walk_h0918KneeExoRS2-v0 #nair_walk_h0918_KneeExo_GH_v0   
                                         #"nair_walk_h0918_exo_knee-v1"
                                         #"ExoLegSpasticityFlexoExtEnv-v0"
   torch_dir: null
@@ -23,7 +23,7 @@ collector:
 # logger
 logger:
   #backend: wandb
-  exp_name: nair_walk_h0918_exo_knee_Espasticity_SAC
+  exp_name: nair_walk_h0918_exo_knee_Espasticity_PPO
   write_interval: 100_000
   test_interval: 100_000
   check_interval: 100_000
