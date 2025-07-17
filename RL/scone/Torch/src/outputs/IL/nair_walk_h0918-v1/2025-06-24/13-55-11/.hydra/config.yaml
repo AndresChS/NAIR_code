@@ -1,0 +1,33 @@
+env:
+  algorithm: IL
+  num_cpu: 1
+  use_delayed_sensors: true
+  env_name: nair_walk_h0918-v1
+  torch_dir: null
+collector:
+  frames_per_batch: 1000
+  total_frames: 10000000
+  learning_epochs: 5
+  buffer_size: 1000
+logger:
+  exp_name: nair_walk_h0918_IL
+  write_interval: 100000
+  test_interval: 100000
+  check_interval: 100000
+  num_test_episodes: 5
+optim:
+  lr: 0.001
+  optimizer: KLAdaptiveRL
+  optimizer_kwargs:
+    kl_threshold: 0.008
+  weight_decay: 0.0
+  anneal_lr: true
+hiperparameters:
+  clip_epsilon: 0.2
+  entropy_coef: 0.9
+  critic_coef: 1.0
+  lmbda: 0.95
+  gamma: 0.99
+  batch_size: 1024
+  mini_batch_size: 64
+  max_grad_norm: 1.0

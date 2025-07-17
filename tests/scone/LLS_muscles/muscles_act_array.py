@@ -73,6 +73,7 @@ class PIDController:
 # --------------------------------------------------------------------
 def scone_step(model, muscles_actions, motor_torque, use_neural_delays=True, step=0):
 	muscle_activations = muscles_actions
+
 	model.init_muscle_activations(muscle_activations)
 	#dof_positions = model.dof_position_array()
 	#model.set_dof_positions(dof_positions)
